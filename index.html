@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AltLayer — Restaked Rollup Infrastructure, FLASH Token, AVS &amp; How It Works (2026)</title>
+  <meta name="description" content="Complete AltLayer guide (2026): how AltLayer's restaked rollup infrastructure works, FLASH token staking and airdrop, Actively Validated Services (AVS) explained, rollup-as-a-service for app chains, EigenLayer restaking integration, security model, ecosystem overview, and a deep FAQ.">
+  <meta name="author" content="Crypto Finance Experts">
+  <link rel="canonical" href="https://altlayer-guide.example.com/">
+  <link rel="icon" type="image/png" href="alt.png">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://altlayer-guide.example.com/">
+  <meta property="og:title" content="AltLayer — Restaked Rollup Infrastructure, FLASH Token &amp; AVS Guide (2026)">
+  <meta property="og:description" content="Practical AltLayer guide: restaked rollups, FLASH token, EigenLayer AVS, rollup-as-a-service, app chain deployment, and security model.">
+  <meta property="og:image" content="cover.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AltLayer Chain Guide (2026)">
+  <meta name="twitter:description" content="How AltLayer restaked rollups work, FLASH token, EigenLayer AVS, and rollup-as-a-service for 2026.">
+
+  <style>
+    :root {
+      --p:    #7B2FFF;
+      --p2:   #6520E0;
+      --p3:   #5015C0;
+      --pa:   #A87FFF;
+      --pb:   #D4BFFF;
+
+      /* electric green accent */
+      --g:    #00FF87;
+      --g2:   #00D470;
+      --ga:   #4FFFAA;
+      --gb:   #B3FFD9;
+
+      --ink:   #F8F5FF;
+      --sub:   #D4BFFF;
+      --muted: #94A3B8;
+      --dim:   #64748B;
+
+      --bg:    #06030F;
+      --card:  rgba(255,255,255,.028);
+      --line:  rgba(255,255,255,.07);
+      --lp:    rgba(123,47,255,.15);
+      --lg:    rgba(0,255,135,.10);
+
+      --ok:   #00FF87;
+      --warn: #FBBF24;
+      --err:  #F87171;
+
+      --r:  12px;
+      --rl: 18px;
+      --gap: 1.2rem;
+      --sh: 0 8px 32px rgba(0,0,0,.68);
+      --shp: 0 4px 26px rgba(123,47,255,.16);
+      --shg: 0 4px 20px rgba(0,255,135,.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+    html { scroll-behavior: smooth }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 960px 540px at 0%   0%,  rgba(101,32,224,.13), transparent 55%),
+        radial-gradient(ellipse 700px 420px at 100% 8%,  rgba(0,212,112,.05),  transparent 50%),
+        radial-gradient(ellipse 600px 380px at 50%  97%, rgba(80,21,192,.08),  transparent 55%);
+      color: var(--muted);
+      line-height: 1.72;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    a { color: var(--pa); text-decoration: none }
+    a:hover { text-decoration: underline }
+    img { max-width: 100%; height: auto; display: block }
+    strong { color: #E0D0FF; font-weight: 600 }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 1.4rem }
+
+    h1,h2,h3,h4 { color: var(--ink); line-height: 1.25 }
+    h1 { font-size: clamp(2rem,5vw,3.2rem); font-weight: 800; letter-spacing: -.5px }
+    h2 { font-size: clamp(1.25rem,2.5vw,1.75rem); font-weight: 700; margin-top: 1.8rem; padding-top: .7rem; border-top: 1px solid var(--line) }
+    h3 { font-size: 1.08rem; font-weight: 700; color: var(--sub) }
+    p,li,td,th { font-size: 1rem; line-height: 1.75 }
+    .lead { font-size: 1.08rem; color: #C0A8FF }
+
+    /* ── HERO ── */
+    header.hero {
+      padding: clamp(2.5rem,6vw,5.5rem) 0 clamp(2rem,4vw,3.5rem);
+      border-bottom: 1px solid var(--line);
+    }
+    .hero-card {
+      background: rgba(101,32,224,.05);
+      border: 1px solid var(--lp);
+      border-radius: var(--rl);
+      padding: clamp(1.5rem,3.5vw,2.6rem);
+      box-shadow: var(--sh), var(--shp);
+      position: relative; overflow: hidden;
+    }
+    /* purple-to-green shimmer */
+    .hero-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg,
+        transparent 4%,
+        rgba(168,127,255,.55) 25%,
+        rgba(123,47,255,.80) 42%,
+        rgba(0,255,135,.70) 58%,
+        rgba(79,255,170,.55) 75%,
+        transparent 96%
+      );
+    }
+
+    .brand-row { display: flex; align-items: center; gap: .95rem; margin-bottom: 1rem }
+    .brand-logo {
+      width: 56px; height: 56px; border-radius: 14px;
+      border: 1px solid rgba(123,47,255,.30);
+      background: rgba(101,32,224,.12);
+      padding: .3rem; object-fit: contain;
+      box-shadow: 0 4px 18px rgba(123,47,255,.22);
+      flex: 0 0 auto;
+    }
+    .brand-label { color: var(--dim); font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: .4px }
+    .brand-sub   { color: var(--muted); font-size: .85rem }
+
+    /* ── CTA ── */
+    .cta-center { display: flex; justify-content: center; margin-top: 2.2rem }
+    .cta {
+      display: inline-flex; align-items: center; gap: .7rem;
+      background: linear-gradient(135deg, #A87FFF 0%, #7B2FFF 40%, #6520E0 76%, #5015C0 100%);
+      color: #fff;
+      padding: 1.2rem 3.2rem;
+      border-radius: 16px;
+      font-weight: 900; font-size: 1.15rem; letter-spacing: .15px;
+      box-shadow:
+        0 0 0 1px rgba(123,47,255,.28),
+        0 0 36px rgba(123,47,255,.38),
+        0 8px 24px rgba(101,32,224,.30),
+        0 22px 50px rgba(80,21,192,.24);
+      border: none; cursor: pointer; text-decoration: none;
+      transition: transform .18s, box-shadow .18s, filter .18s;
+    }
+    .cta:hover {
+      transform: translateY(-3px) scale(1.025); filter: brightness(1.08);
+      color: #fff; text-decoration: none;
+      box-shadow:
+        0 0 0 1px rgba(123,47,255,.44),
+        0 0 52px rgba(123,47,255,.54),
+        0 10px 32px rgba(101,32,224,.42),
+        0 28px 60px rgba(80,21,192,.32);
+    }
+
+    /* ── NOTE ── */
+    .note {
+      border-left: 3px solid var(--pa);
+      padding: .85rem 1rem;
+      background: rgba(101,32,224,.07);
+      border-radius: 0 9px 9px 0;
+      color: var(--sub); margin-top: 1rem;
+    }
+    .note.green {
+      border-left-color: var(--ga);
+      background: rgba(0,212,112,.07);
+      color: var(--gb);
+    }
+
+    /* ── STEPS ── */
+    section.step-guide {
+      padding: clamp(2rem,5vw,3.5rem) 0;
+      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    }
+    .steps { display: grid; gap: var(--gap); grid-template-columns: 1fr }
+    .step {
+      background: var(--card); border: 1px solid var(--line);
+      border-top: 2px solid rgba(123,47,255,.30); border-radius: var(--r);
+      padding: 1.25rem; box-shadow: var(--sh); transition: transform .18s, box-shadow .18s;
+    }
+    .step:hover { transform: translateY(-3px); box-shadow: var(--sh), var(--shp) }
+    .step .icon {
+      width: 44px; height: 44px; border-radius: 9px;
+      display: inline-grid; place-items: center;
+      background: rgba(101,32,224,.12); margin-bottom: .65rem;
+      font-weight: 800; font-size: .95rem; color: var(--pa);
+      border: 1px solid rgba(123,47,255,.24);
+    }
+
+    /* ── CARD ── */
+    main { padding-top: .5rem }
+    main .card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--r); padding: 1.5rem; margin: 1.2rem 0; box-shadow: var(--sh);
+    }
+    main .card > h2:first-child { margin-top: 0; border-top: none; padding-top: 0 }
+
+    /* ── TOC ── */
+    .toc { border: 1px solid var(--lp); background: rgba(101,32,224,.05); border-radius: var(--r); padding: 1.1rem 1.3rem }
+    .toc strong { color: var(--ink) }
+    .toc ul { margin: .5rem 0 0; padding-left: 1.1rem }
+    .toc li { margin: .28rem 0; font-size: .96rem }
+    .toc a { font-weight: 600 }
+
+    /* ── CALLOUT GRID ── */
+    .callout-grid { display: grid; gap: var(--gap); grid-template-columns: 1fr; margin-top: .8rem }
+    .mini { background: rgba(255,255,255,.02); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem }
+    .mini h3 { margin-bottom: .35rem }
+    .kpi-badges { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .55rem }
+    .kpi-badges span {
+      border: 1px solid rgba(123,47,255,.24); background: rgba(101,32,224,.09);
+      color: var(--sub); padding: .26rem .54rem;
+      border-radius: 999px; font-size: .87rem; font-weight: 600;
+    }
+    .kpi-badges span.green {
+      border-color: rgba(0,255,135,.22); background: rgba(0,212,112,.08);
+      color: var(--ga);
+    }
+
+    /* ── ROLLUP STACK — unique design element ── */
+    .rollup-stack {
+      display: flex; flex-direction: column; gap: 0;
+      margin-top: 1rem; border-radius: var(--r); overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .rs-layer {
+      padding: .85rem 1.2rem;
+      display: flex; align-items: center; gap: .9rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: relative; overflow: hidden;
+      transition: background .18s;
+    }
+    .rs-layer:last-child { border-bottom: none }
+    .rs-layer::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    }
+    /* layer themes */
+    .rs-l1  { background: rgba(0,255,135,.05) }
+    .rs-l1::before  { background: var(--g) }
+    .rs-avs { background: rgba(123,47,255,.07) }
+    .rs-avs::before { background: var(--p) }
+    .rs-rollup { background: rgba(59,130,246,.06) }
+    .rs-rollup::before { background: #3B82F6 }
+    .rs-app { background: rgba(251,191,36,.05) }
+    .rs-app::before { background: var(--warn) }
+
+    .rs-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: grid; place-items: center; font-size: 1.1rem;
+      flex: 0 0 auto;
+    }
+    .rs-l1   .rs-icon { background: rgba(0,255,135,.12); border: 1px solid rgba(0,255,135,.22) }
+    .rs-avs  .rs-icon { background: rgba(123,47,255,.12); border: 1px solid rgba(123,47,255,.24) }
+    .rs-rollup .rs-icon { background: rgba(59,130,246,.12); border: 1px solid rgba(59,130,246,.22) }
+    .rs-app  .rs-icon { background: rgba(251,191,36,.10); border: 1px solid rgba(251,191,36,.22) }
+
+    .rs-body { flex: 1 }
+    .rs-title { font-weight: 700; font-size: .96rem; color: var(--ink); margin-bottom: .15rem }
+    .rs-desc  { font-size: .88rem; color: var(--muted) }
+    .rs-tag {
+      font-size: .76rem; font-weight: 700; padding: .2rem .5rem;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: .3px;
+      white-space: nowrap; flex: 0 0 auto;
+    }
+    .rs-l1   .rs-tag { background: rgba(0,255,135,.12); color: var(--ga) }
+    .rs-avs  .rs-tag { background: rgba(123,47,255,.15); color: var(--pa) }
+    .rs-rollup .rs-tag { background: rgba(59,130,246,.12); color: #60A5FA }
+    .rs-app  .rs-tag { background: rgba(251,191,36,.12); color: var(--warn) }
+
+    /* stack arrows */
+    .rs-arrow {
+      text-align: center; padding: .25rem 0;
+      color: var(--dim); font-size: .85rem; letter-spacing: .5px;
+      background: rgba(255,255,255,.015);
+    }
+
+    /* ── TOKO BARS ── */
+    .toko-bar { display: flex; flex-direction: column; gap: .6rem; margin-top: 1rem }
+    .toko-row { display: flex; align-items: center; gap: .85rem }
+    .toko-label { min-width: 200px; font-size: .92rem; color: #E0D0FF; font-weight: 600 }
+    .toko-track { flex: 1; height: 8px; background: rgba(255,255,255,.07); border-radius: 999px; overflow: hidden }
+    .toko-fill  { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--pa), var(--p)) }
+    .toko-fill.green { background: linear-gradient(90deg, var(--ga), var(--g)) }
+    .toko-val   { min-width: 55px; text-align: right; font-size: .9rem; font-weight: 700; color: var(--pa) }
+    .toko-val.green { color: var(--ga) }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; border-radius: var(--r); border: 1px solid var(--line) }
+    table { width: 100%; border-collapse: collapse; min-width: 480px }
+    th,td { padding: .8rem .95rem; border-bottom: 1px solid var(--line); text-align: left }
+    th { background: rgba(101,32,224,.07); color: var(--ink); font-weight: 700; font-size: .92rem }
+    tr.hi { background: rgba(101,32,224,.04) }
+    tr:hover td { background: rgba(255,255,255,.018) }
+    tr:last-child td { border-bottom: none }
+    .ok  { color: var(--ok)  }
+    .warn{ color: var(--warn) }
+    .err { color: var(--err)  }
+
+    /* ── EEAT ── */
+    .eeat { background: var(--card); border: 1px solid var(--lp); border-radius: var(--r); padding: 1.5rem; box-shadow: var(--sh) }
+    .eeat > h2:first-child { margin-top: 0; border-top: none; padding-top: 0 }
+
+    /* ── FAQ ── */
+    .faq-item { border-bottom: 1px solid var(--line); padding: .9rem 0 }
+    .faq-item:last-child { border-bottom: none }
+    .faq-button { all: unset; display: flex; justify-content: space-between; align-items: flex-start; width: 100%; cursor: pointer; gap: 1rem }
+    .faq-button:focus-visible { outline: 2px solid var(--p); border-radius: 4px }
+    .faq-button h3 { margin: 0; font-weight: 700; font-size: 1rem; line-height: 1.4 }
+    .faq-content { max-height: 0; overflow: hidden; transition: max-height .26s ease }
+    .faq-content.open { padding-top: .65rem }
+    .faq-plus { font-weight: 800; font-size: 1.35rem; color: var(--pa); flex: 0 0 auto; line-height: 1; transition: transform .2s }
+    .faq-button[aria-expanded="true"] .faq-plus { transform: rotate(45deg) }
+
+    @media(min-width:860px){
+      .steps { grid-template-columns: repeat(4,1fr) }
+      .callout-grid { grid-template-columns: 1fr 1fr }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero" role="banner">
+  <div class="container">
+    <div class="hero-card">
+      <div class="brand-row">
+        <img class="brand-logo" src="alt.png" alt="AltLayer logo">
+        <div>
+          <div class="brand-label">Restaked Rollup Infrastructure</div>
+          <div class="brand-sub">FLASH Token · EigenLayer AVS · Rollup-as-a-Service · App Chains · MACH · SQUAD · VITAL</div>
+        </div>
+      </div>
+
+      <h1>AltLayer</h1>
+      <p class="lead" style="margin-top:.75rem">
+        The complete guide to <strong>AltLayer</strong> — the protocol that introduced
+        <strong>restaked rollups</strong>, a new primitive that combines
+        <strong>rollup-as-a-service (RaaS)</strong> deployment with
+        <strong>EigenLayer's restaking security</strong>
+        to give application-specific rollups instant decentralisation,
+        fast finality, and fraud-proof verification
+        without bootstrapping trust from scratch.
+        Understand how AltLayer's three
+        <strong>Actively Validated Services (AVS)</strong> —
+        <strong>MACH</strong> (fast finality),
+        <strong>SQUAD</strong> (decentralised sequencing), and
+        <strong>VITAL</strong> (verified state) — layer security onto any rollup,
+        how the <strong>FLASH token</strong> powers governance and staking,
+        and how developers use AltLayer to launch production-grade
+        <strong>app chains</strong> in days rather than months.
+      </p>
+
+      <div class="cta-center">
+        <a href="#" class="cta" aria-label="Open AltLayer App">
+          <span>⬡</span> Open AltLayer
+        </a>
+      </div>
+
+      <div class="note green">
+        <strong>The restaked rollup primitive:</strong> Before AltLayer, deploying a rollup
+        meant either trusting a centralised sequencer or waiting years to bootstrap
+        a decentralised validator set. AltLayer's restaked rollups borrow security
+        from EigenLayer's restaked ETH — giving any new rollup immediate access
+        to cryptoeconomic security from day one, without needing its own token
+        or validator community.
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- STEPS -->
+<section class="step-guide" aria-labelledby="how-works">
+  <div class="container">
+    <h2 id="how-works" style="margin-top:0;border-top:none;padding-top:0">
+      How AltLayer Works: Deploy Rollup → Attach AVS → Inherit Security → Scale App
+    </h2>
+    <div class="steps" role="list">
+      <article class="step" role="listitem">
+        <div class="icon">01</div>
+        <h3>Deploy a rollup via RaaS</h3>
+        <p>Developers use AltLayer's no-code dashboard or CLI to deploy an app-specific rollup — choosing the execution environment (EVM, WASM), data availability layer (Ethereum, Celestia, EigenDA), and sequencer configuration in minutes, not months.</p>
+      </article>
+      <article class="step" role="listitem">
+        <div class="icon">02</div>
+        <h3>Attach restaked AVS modules</h3>
+        <p>Connect MACH (fast finality confirmation), SQUAD (decentralised sequencer rotation), and VITAL (verified state rollup) to the deployed rollup. Each AVS is secured by EigenLayer-restaked ETH — borrowed cryptoeconomic security without bootstrapping a new validator set.</p>
+      </article>
+      <article class="step" role="listitem">
+        <div class="icon">03</div>
+        <h3>Inherit Ethereum-grade cryptoeconomic security</h3>
+        <p>Operators running AltLayer's AVS modules stake restaked ETH as collateral. Misbehaviour results in slashing — creating real economic consequences that secure the rollup's fast finality, sequencer decentralisation, and state verification.</p>
+      </article>
+      <article class="step" role="listitem">
+        <div class="icon">04</div>
+        <h3>Scale app chain for production</h3>
+        <p>The deployed rollup runs as a production app chain — customisable gas tokens, fee structures, throughput limits, and governance. FLASH token stakers participate in governance of the AltLayer protocol and earn rewards from AVS operator fees.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="container" role="main">
+
+  <!-- TOC -->
+  <section class="card toc" aria-label="Table of Contents">
+    <strong>On this page — AltLayer:</strong>
+    <ul>
+      <li><a href="#overview">What is AltLayer and the restaked rollup thesis</a></li>
+      <li><a href="#stack">AltLayer's technology stack: the restaked rollup architecture</a></li>
+      <li><a href="#avs">The three AVS modules: MACH, SQUAD, and VITAL explained</a></li>
+      <li><a href="#raas">Rollup-as-a-Service: how developers deploy app chains on AltLayer</a></li>
+      <li><a href="#eigenlayer">EigenLayer restaking integration: how borrowed security works</a></li>
+      <li><a href="#flash-token">FLASH token: staking, governance, and restaked rewards</a></li>
+      <li><a href="#ecosystem">AltLayer ecosystem: supported frameworks and notable deployments</a></li>
+      <li><a href="#safety">AltLayer security model and risks</a></li>
+      <li><a href="#comparison">AltLayer vs Conduit vs Caldera vs OP Stack: RaaS comparison</a></li>
+      <li><a href="#best-practices">Best practices for FLASH stakers and app chain deployers</a></li>
+      <li><a href="#troubleshooting">Troubleshooting: bridging, AVS operator issues, deployment</a></li>
+      <li><a href="#eeat">Authoritative sources &amp; references</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </section>
+
+  <!-- OVERVIEW -->
+  <section class="card" id="overview">
+    <h2>What Is AltLayer and the Restaked Rollup Thesis</h2>
+    <p>
+      <strong>AltLayer</strong> is a decentralised protocol that enables the deployment
+      and operation of <strong>application-specific rollups</strong> — custom blockchains
+      for specific applications — with cryptoeconomic security inherited from
+      <strong>EigenLayer's restaking ecosystem</strong> rather than bootstrapped
+      from a new validator set.
+    </p>
+    <p>
+      The central insight behind AltLayer is that the two hardest problems for any new
+      rollup are <em>sequencer decentralisation</em> and <em>security bootstrapping</em>.
+      Traditional rollups start centralised (one sequencer controlled by the team) and
+      plan to decentralise later — a process that takes years and requires building
+      an independent validator community.
+      AltLayer's restaked rollups skip this cold-start problem entirely:
+      security comes from EigenLayer's billions of restaked ETH on day one.
+    </p>
+
+    <div class="callout-grid">
+      <div class="mini">
+        <h3>For app chain developers</h3>
+        <p style="color:var(--muted)">Deploy a production-ready rollup in days rather than months using AltLayer's no-code dashboard. Choose your execution environment, DA layer, and security configuration. Attach AVS modules for instant decentralised sequencing and fast finality — no need to recruit validators or build consensus infrastructure from scratch.</p>
+        <div class="kpi-badges"><span>Days to deploy</span><span>No-code dashboard</span><span>Custom EVM/WASM</span></div>
+      </div>
+      <div class="mini">
+        <h3>For EigenLayer operators</h3>
+        <p style="color:var(--muted)">EigenLayer operators who opt into AltLayer's AVS earn additional yield on their restaked ETH for running MACH, SQUAD, and VITAL modules. AltLayer is one of the most feature-rich AVS deployments in the EigenLayer ecosystem, offering operators meaningful fee revenue from a growing portfolio of rollup deployments.</p>
+        <div class="kpi-badges"><span>Additional ETH yield</span><span>AVS operator fees</span><span>EigenLayer opt-in</span></div>
+      </div>
+      <div class="mini">
+        <h3>For FLASH token holders</h3>
+        <p style="color:var(--muted)">FLASH is the native token of AltLayer — staked to participate in governance, earn a share of AVS operator fees, and boost rewards for operators running AltLayer's modules. The token's value accrues from the growth of AltLayer's rollup deployment base and the fees generated by an expanding ecosystem of app chains.</p>
+        <div class="kpi-badges"><span>Governance</span><span>Fee accrual</span><span>Operator boost</span></div>
+      </div>
+      <div class="mini">
+        <h3>For the broader rollup ecosystem</h3>
+        <p style="color:var(--muted)">AltLayer is framework-agnostic — it can attach AVS security to rollups built on OP Stack, Arbitrum Orbit, Polygon CDK, and ZK frameworks like zkSync's ZK Stack. This positions AltLayer as horizontal infrastructure across the entire modular blockchain ecosystem, not a competing rollup framework.</p>
+        <div class="kpi-badges"><span class="green">OP Stack</span><span class="green">Arbitrum Orbit</span><span class="green">Polygon CDK</span><span class="green">ZK Stack</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK DIAGRAM -->
+  <section class="card" id="stack">
+    <h2>AltLayer's Technology Stack: The Restaked Rollup Architecture</h2>
+    <p>
+      A restaked rollup is a layered architecture — each layer contributing a specific
+      property to the overall system. Understanding how the layers interact
+      is the foundation for understanding AltLayer's value proposition.
+    </p>
+
+    <!-- Rollup stack visual — unique design element -->
+    <h3 style="margin-top:1.1rem;margin-bottom:.5rem">Restaked rollup layer structure</h3>
+
+    <div class="rollup-stack" role="img" aria-label="AltLayer restaked rollup architecture: App layer on top, rollup execution, AVS security, L1 settlement">
+      <div class="rs-layer rs-app">
+        <div class="rs-icon">🎮</div>
+        <div class="rs-body">
+          <div class="rs-title">Application Layer</div>
+          <div class="rs-desc">dApps, games, DeFi protocols, or any smart-contract application running on the rollup — users interact here</div>
+        </div>
+        <span class="rs-tag">App Chain</span>
+      </div>
+      <div class="rs-arrow">↕ transactions submitted + state queries</div>
+      <div class="rs-layer rs-rollup">
+        <div class="rs-icon">⚙️</div>
+        <div class="rs-body">
+          <div class="rs-title">Rollup Execution Environment</div>
+          <div class="rs-desc">EVM or WASM execution layer — processes transactions, maintains state, produces blocks. Can be OP Stack, Arbitrum Orbit, Polygon CDK, or ZK-based</div>
+        </div>
+        <span class="rs-tag">Execution</span>
+      </div>
+      <div class="rs-arrow">↕ AVS modules attach here for security services</div>
+      <div class="rs-layer rs-avs">
+        <div class="rs-icon">🛡️</div>
+        <div class="rs-body">
+          <div class="rs-title">AltLayer AVS Security Layer</div>
+          <div class="rs-desc">MACH (fast finality) + SQUAD (decentralised sequencing) + VITAL (verified state) — operated by EigenLayer operators staking restaked ETH</div>
+        </div>
+        <span class="rs-tag">AVS</span>
+      </div>
+      <div class="rs-arrow">↕ validity proofs + state roots posted</div>
+      <div class="rs-layer rs-l1">
+        <div class="rs-icon">⛓️</div>
+        <div class="rs-body">
+          <div class="rs-title">Ethereum L1 Settlement + EigenLayer</div>
+          <div class="rs-desc">Final settlement on Ethereum — rollup state roots posted for fraud/validity proofs. EigenLayer provides the restaked ETH securing the AVS operators</div>
+        </div>
+        <span class="rs-tag">L1 + Restaking</span>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:1.2rem">
+      <strong>Modularity is AltLayer's core design principle:</strong> Each layer is
+      independently composable — you can swap the execution environment (OP Stack → Arbitrum),
+      change the DA layer (Ethereum calldata → EigenDA → Celestia),
+      or add/remove AVS modules without rebuilding the entire rollup.
+      This gives developers maximum flexibility while reusing
+      AltLayer's battle-tested security infrastructure.
+    </div>
+  </section>
+
+  <!-- AVS MODULES -->
+  <section class="card" id="avs">
+    <h2>The Three AVS Modules: MACH, SQUAD, and VITAL Explained</h2>
+    <p>
+      AltLayer's three <strong>Actively Validated Services</strong> are the security
+      primitives that transform a standard rollup into a restaked rollup.
+      Each addresses a different weakness in the default rollup security model.
+    </p>
+
+    <div class="table-wrap">
+      <table aria-label="AltLayer AVS modules">
+        <thead>
+          <tr><th>AVS Module</th><th>What it solves</th><th>How it works</th><th>Security source</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi">
+            <td><strong>MACH</strong></td>
+            <td>Slow finality — optimistic rollups wait 7 days for final L1 finality</td>
+            <td>A network of restaked operators attest to rollup state validity, providing "fast finality" in seconds rather than days — enabling safe same-block cross-chain messaging</td>
+            <td>EigenLayer restaked ETH + FLASH staking</td>
+          </tr>
+          <tr>
+            <td><strong>SQUAD</strong></td>
+            <td>Centralised sequencer — single point of failure and censorship risk</td>
+            <td>Rotates sequencer duties among a decentralised set of operators using a Byzantine fault-tolerant consensus — preventing any single party from censoring or reordering transactions</td>
+            <td>EigenLayer restaked ETH + FLASH staking</td>
+          </tr>
+          <tr class="hi">
+            <td><strong>VITAL</strong></td>
+            <td>State correctness — verifying rollup execution is correct without waiting for fraud proof window</td>
+            <td>Operators independently execute rollup transactions and attest to the resulting state root — creating an off-chain validity attestation network that catches incorrect state transitions faster than the fraud proof period</td>
+            <td>EigenLayer restaked ETH + FLASH staking</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout-grid" style="margin-top:1rem">
+      <div class="mini">
+        <h3>Why MACH matters for UX</h3>
+        <p style="color:var(--muted)">Without MACH, a user bridging from a rollup to Ethereum must wait up to 7 days for the fraud proof window to close before their funds are available on L1. MACH's fast finality attestation reduces this to seconds for applications that trust the AVS — enabling near-instant cross-chain UX that feels like same-chain transactions to end users.</p>
+        <div class="kpi-badges"><span class="green">Seconds vs 7 days</span><span>Same-block messaging</span></div>
+      </div>
+      <div class="mini">
+        <h3>Why SQUAD matters for censorship resistance</h3>
+        <p style="color:var(--muted)">A centralised sequencer can reorder, delay, or censor transactions at will — a fundamental trust assumption many rollup users don't realise they're making. SQUAD's decentralised sequencer rotation means no single entity controls transaction ordering. This is critical for DeFi applications where MEV and censorship resistance are non-negotiable properties.</p>
+        <div class="kpi-badges"><span class="green">No censorship</span><span>BFT rotation</span><span>MEV resistant</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RAAS -->
+  <section class="card" id="raas">
+    <h2>Rollup-as-a-Service: How Developers Deploy App Chains on AltLayer</h2>
+    <p>
+      AltLayer's <strong>Rollup-as-a-Service (RaaS)</strong> platform abstracts the
+      infrastructure complexity of deploying and operating a rollup —
+      from genesis block configuration to sequencer operation to bridge deployment.
+    </p>
+
+    <div class="table-wrap">
+      <table aria-label="RaaS deployment configuration options">
+        <thead>
+          <tr><th>Configuration dimension</th><th>Available options</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi">
+            <td>Rollup framework</td>
+            <td>OP Stack (Optimism), Arbitrum Orbit, Polygon CDK, zkSync ZK Stack, and others</td>
+          </tr>
+          <tr>
+            <td>Data availability</td>
+            <td>Ethereum calldata, EigenDA, Celestia, Avail, NearDA — choose based on cost vs security trade-offs</td>
+          </tr>
+          <tr class="hi">
+            <td>Execution environment</td>
+            <td>EVM (full Ethereum compatibility), WASM (Stylus on Arbitrum), or custom VMs</td>
+          </tr>
+          <tr>
+            <td>Gas token</td>
+            <td>Native ETH, or a custom ERC-20 token designated as the chain's gas currency</td>
+          </tr>
+          <tr class="hi">
+            <td>AVS security modules</td>
+            <td>MACH, SQUAD, VITAL — attach any combination to the deployed rollup post-launch</td>
+          </tr>
+          <tr>
+            <td>Bridge</td>
+            <td>Standard canonical bridge (from L1) + third-party bridge integrations for additional cross-chain connectivity</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <strong>The deployment experience:</strong> AltLayer's dashboard lets a developer
+      configure and deploy a rollup with a few form inputs — selecting framework,
+      DA layer, gas token, and initial parameters — without writing deployment scripts
+      or configuring infrastructure manually. AltLayer handles the sequencer operation,
+      bridge deployment, and block explorer setup as managed infrastructure.
+      Developers focus on their application, not their chain's plumbing.
+    </div>
+  </section>
+
+  <!-- EIGENLAYER -->
+  <section class="card" id="eigenlayer">
+    <h2>EigenLayer Restaking Integration: How Borrowed Security Works</h2>
+    <p>
+      AltLayer's security model is built on <strong>EigenLayer restaking</strong> —
+      the mechanism that allows ETH stakers to re-deploy their staked ETH as security
+      for additional services beyond Ethereum consensus.
+    </p>
+
+    <div class="callout-grid">
+      <div class="mini">
+        <h3>How ETH restaking secures AltLayer AVS</h3>
+        <p style="color:var(--muted)">EigenLayer operators who opt into AltLayer's AVS modules lock additional ETH as collateral for those services. If an operator running MACH, SQUAD, or VITAL misbehaves (e.g. signs an incorrect state attestation), their restaked ETH is slashed. This creates a direct economic incentive against misconduct — the same security primitive that underlies Ethereum's own PoS consensus.</p>
+        <div class="kpi-badges"><span>ETH as collateral</span><span>Slashing on misbehaviour</span><span>EigenLayer operators</span></div>
+      </div>
+      <div class="mini">
+        <h3>Why this solves the cold-start problem</h3>
+        <p style="color:var(--muted)">A new rollup launching its own validator token faces a circular problem: the token has no value until the chain is secure, but the chain isn't secure until the token has value and validators stake it. AltLayer's restaked rollups bypass this — they borrow security from EigenLayer's existing billions of restaked ETH, which has value independent of any individual rollup.</p>
+        <div class="kpi-badges"><span class="green">No token needed</span><span class="green">Instant security</span><span class="green">Billions in ETH backing</span></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Dual staking model:</strong> AltLayer's AVS actually uses a
+      <em>dual staking</em> approach — security comes from both restaked ETH
+      (via EigenLayer operators) and restaked FLASH tokens (via FLASH stakers
+      who opt into the AVS). This dual-token model prevents any single asset's
+      volatility from compromising the security of the AVS network.
+    </div>
+  </section>
+
+  <!-- FLASH TOKEN -->
+  <section class="card" id="flash-token">
+    <h2>FLASH Token: Staking, Governance, and Restaked Rewards</h2>
+    <p>
+      <strong>FLASH</strong> is AltLayer's native ERC-20 token — used for governance,
+      staking to participate in AVS security, and earning a share of operator fees
+      from AltLayer's growing rollup ecosystem.
+    </p>
+
+    <div class="table-wrap">
+      <table aria-label="FLASH token utility">
+        <thead>
+          <tr><th>Function</th><th>How FLASH is used</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi">
+            <td>AVS staking (restaked FLASH)</td>
+            <td>FLASH can be restaked into AltLayer's AVS via EigenLayer — participating in the dual-staking security model alongside restaked ETH operators</td>
+          </tr>
+          <tr>
+            <td>Governance</td>
+            <td>FLASH holders vote on AltLayer protocol parameters — AVS configuration, fee structures, new rollup framework support, and treasury allocation</td>
+          </tr>
+          <tr class="hi">
+            <td>Operator incentives</td>
+            <td>Staked FLASH boosts rewards for EigenLayer operators running AltLayer's AVS modules — incentivising operators to join and remain in the network</td>
+          </tr>
+          <tr>
+            <td>Protocol fee accrual</td>
+            <td>A portion of fees generated by rollup deployments using AltLayer's infrastructure flows to FLASH stakers — real yield from the RaaS and AVS ecosystems</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="toko-bar" role="list" aria-label="FLASH token distribution">
+      <div class="toko-row" role="listitem">
+        <span class="toko-label">Community &amp; ecosystem</span>
+        <div class="toko-track"><div class="toko-fill" style="width:37.5%"></div></div>
+        <span class="toko-val">37.5%</span>
+      </div>
+      <div class="toko-row" role="listitem">
+        <span class="toko-label">Investors</span>
+        <div class="toko-track"><div class="toko-fill" style="width:25%"></div></div>
+        <span class="toko-val">25.0%</span>
+      </div>
+      <div class="toko-row" role="listitem">
+        <span class="toko-label">Team &amp; advisors</span>
+        <div class="toko-track"><div class="toko-fill" style="width:20%"></div></div>
+        <span class="toko-val">20.0%</span>
+      </div>
+      <div class="toko-row" role="listitem">
+        <span class="toko-label">Foundation reserve</span>
+        <div class="toko-track"><div class="toko-fill green" style="width:12.5%"></div></div>
+        <span class="toko-val green">12.5%</span>
+      </div>
+      <div class="toko-row" role="listitem">
+        <span class="toko-label">Airdrop</span>
+        <div class="toko-track"><div class="toko-fill green" style="width:5%"></div></div>
+        <span class="toko-val green">5.0%</span>
+      </div>
+    </div>
+    <p style="font-size:.88rem; color:var(--dim); margin-top:.6rem">Total supply: 10,000,000,000 FLASH (10 billion). Verify via official AltLayer documentation.</p>
+  </section>
+
+  <!-- ECOSYSTEM -->
+  <section class="card" id="ecosystem">
+    <h2>AltLayer Ecosystem: Supported Frameworks and Notable Deployments</h2>
+    <p>
+      AltLayer's RaaS and AVS infrastructure supports an expanding ecosystem
+      of app chains and rollup frameworks — positioning it as horizontal
+      infrastructure across the modular blockchain stack.
+    </p>
+
+    <div class="callout-grid">
+      <div class="mini">
+        <h3>Supported rollup frameworks</h3>
+        <p style="color:var(--muted)">AltLayer is framework-agnostic — its AVS modules can attach to any rollup that settles on Ethereum. Currently supported: OP Stack (used by Optimism, Base, Zora), Arbitrum Orbit (used by Arbitrum One L3s), Polygon CDK (used by Polygon zkEVM ecosystem), and zkSync's ZK Stack. Future frameworks are added via governance.</p>
+        <div class="kpi-badges"><span class="green">OP Stack</span><span class="green">Arbitrum Orbit</span><span class="green">Polygon CDK</span><span class="green">ZK Stack</span></div>
+      </div>
+      <div class="mini">
+        <h3>Data availability options</h3>
+        <p style="color:var(--muted)">AltLayer integrates with multiple DA layers, allowing rollup deployers to optimise for their cost vs security trade-off. Ethereum calldata provides maximum security but highest cost. EigenDA and Celestia provide lower costs with different security assumptions. Avail and NearDA are additional options in the ecosystem.</p>
+        <div class="kpi-badges"><span>Ethereum calldata</span><span>EigenDA</span><span>Celestia</span><span>Avail</span></div>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top:1rem">
+      <table aria-label="AltLayer ecosystem integrations">
+        <thead>
+          <tr><th>Category</th><th>Partners / integrations</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi">
+            <td>Rollup frameworks</td>
+            <td>OP Stack, Arbitrum Orbit, Polygon CDK, zkSync ZK Stack</td>
+          </tr>
+          <tr>
+            <td>Data availability</td>
+            <td>EigenDA, Celestia, Avail, NearDA, Ethereum calldata</td>
+          </tr>
+          <tr class="hi">
+            <td>Restaking</td>
+            <td>EigenLayer (primary), with support for emerging restaking protocols</td>
+          </tr>
+          <tr>
+            <td>Bridges</td>
+            <td>Canonical L1↔L2 bridge + third-party bridge integrations (Stargate, Across, Hop)</td>
+          </tr>
+          <tr class="hi">
+            <td>Development tools</td>
+            <td>No-code dashboard, CLI, SDK, Ethereum-compatible block explorer (Blockscout)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SAFETY -->
+  <section class="card" id="safety">
+    <h2>AltLayer Security Model and Risks</h2>
+
+    <div class="table-wrap">
+      <table aria-label="Security and risk analysis">
+        <thead>
+          <tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi">
+            <td>AVS smart-contract exploit</td>
+            <td class="warn">Medium</td>
+            <td>AltLayer's AVS contracts audited by multiple firms; EigenLayer's core restaking contract independently audited; significant TVL creates ongoing scrutiny incentive</td>
+          </tr>
+          <tr>
+            <td>EigenLayer systemic risk</td>
+            <td class="warn">Medium</td>
+            <td>AltLayer's security depends on EigenLayer's integrity — an EigenLayer-level exploit would affect all AVS operators. EigenLayer has multiple audits and a bug bounty; diversification of restaking protocols reduces single-point exposure over time</td>
+          </tr>
+          <tr class="hi">
+            <td>AVS operator collusion</td>
+            <td class="warn">Medium</td>
+            <td>If a majority of AVS operators collude, they could produce incorrect attestations. MACH/SQUAD/VITAL designs require supermajority agreement — economic incentives (restaked ETH slashing) make collusion expensive</td>
+          </tr>
+          <tr>
+            <td>Rollup-specific risks</td>
+            <td class="warn">Medium</td>
+            <td>App chains deployed via AltLayer inherit risks from their chosen framework (OP Stack, Arbitrum) plus the DA layer. Assess each deployed rollup's risk independently before bridging funds</td>
+          </tr>
+          <tr class="hi">
+            <td>FLASH token price risk</td>
+            <td class="warn">Medium</td>
+            <td>FLASH's staking utility creates real demand but price remains volatile; evaluate restaked FLASH yields vs token price exposure before long lock periods</td>
+          </tr>
+          <tr>
+            <td>Phishing / fake AltLayer sites</td>
+            <td class="err">High (user-controlled)</td>
+            <td>Bookmark altlayer.io directly; verify domain every session; confirm any bridge or staking URL from official AltLayer documentation</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section class="card" id="comparison">
+    <h2>AltLayer vs Conduit vs Caldera vs OP Stack: RaaS Comparison</h2>
+
+    <div class="table-wrap">
+      <table aria-label="RaaS platform comparison">
+        <thead>
+          <tr><th>Feature</th><th>AltLayer</th><th>Conduit</th><th>Caldera</th><th>Raw OP Stack / Orbit</th></tr>
+        </thead>
+        <tbody>
+          <tr class="hi">
+            <td>Restaked security (AVS)</td>
+            <td class="ok">Yes — MACH, SQUAD, VITAL</td>
+            <td class="err">No</td>
+            <td class="err">No</td>
+            <td class="err">No</td>
+          </tr>
+          <tr>
+            <td>Fast finality solution</td>
+            <td class="ok">MACH AVS</td>
+            <td class="warn">Bridge-dependent</td>
+            <td class="warn">Bridge-dependent</td>
+            <td class="err">7-day optimistic window</td>
+          </tr>
+          <tr class="hi">
+            <td>Decentralised sequencer</td>
+            <td class="ok">SQUAD AVS</td>
+            <td class="err">Centralised</td>
+            <td class="err">Centralised</td>
+            <td class="err">Centralised by default</td>
+          </tr>
+          <tr>
+            <td>Framework support</td>
+            <td class="ok">OP Stack, Orbit, CDK, ZK Stack</td>
+            <td class="warn">OP Stack primary</td>
+            <td class="warn">OP Stack + Orbit</td>
+            <td class="warn">Single framework</td>
+          </tr>
+          <tr class="hi">
+            <td>DA layer flexibility</td>
+            <td class="ok">ETH, EigenDA, Celestia, Avail</td>
+            <td class="warn">ETH + Celestia</td>
+            <td class="warn">ETH + EigenDA</td>
+            <td class="warn">Framework-dependent</td>
+          </tr>
+          <tr>
+            <td>Native token</td>
+            <td class="ok">FLASH</td>
+            <td class="err">None</td>
+            <td class="err">None</td>
+            <td class="err">None</td>
+          </tr>
+          <tr class="hi">
+            <td>No-code dashboard</td>
+            <td class="ok">Yes</td>
+            <td class="ok">Yes</td>
+            <td class="ok">Yes</td>
+            <td class="err">No — requires DevOps</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note" style="margin-top:1rem">
+      <strong>AltLayer's unique differentiation:</strong> Among all RaaS providers,
+      AltLayer is uniquely positioned as the only one combining no-code deployment
+      with native AVS security modules — MACH, SQUAD, and VITAL.
+      Conduit and Caldera offer excellent managed rollup hosting but don't address
+      sequencer decentralisation or fast finality at the infrastructure level.
+      For teams building production-grade app chains where censorship resistance
+      and withdrawal UX matter, AltLayer's AVS layer is a meaningful differentiator.
+    </div>
+  </section>
+
+  <!-- BEST PRACTICES -->
+  <section class="card" id="best-practices">
+    <h2>Best Practices for FLASH Stakers and App Chain Deployers</h2>
+
+    <h3>For FLASH token stakers</h3>
+    <ul style="padding-left:1.2rem; margin-bottom:1.2rem">
+      <li style="margin-bottom:.5rem"><strong>Understand the dual-staking model before committing FLASH</strong> — restaked FLASH in AltLayer's AVS earns fees from the rollup ecosystem but also exposes you to slashing if the operators you're backing misbehave. Review the slashing conditions in the official AltLayer documentation before staking significant amounts.</li>
+      <li style="margin-bottom:.5rem"><strong>Monitor operator performance before delegating</strong> — different EigenLayer operators running AltLayer's AVS have different performance track records. Review operator uptime and slash history via EigenLayer's operator dashboard before choosing whom to back.</li>
+      <li><strong>Participate in governance actively</strong> — AltLayer's governance decisions (new framework support, fee adjustments, AVS parameters) directly affect the value of FLASH staking. Regular governance participation maintains protocol quality.</li>
+    </ul>
+
+    <h3>For app chain developers</h3>
+    <ul style="padding-left:1.2rem">
+      <li style="margin-bottom:.5rem"><strong>Start with testnet deployment before mainnet</strong> — AltLayer provides testnet infrastructure for every supported framework. Test your application and DA configuration thoroughly before committing to mainnet deployment parameters.</li>
+      <li style="margin-bottom:.5rem"><strong>Choose your DA layer based on your security model</strong> — Ethereum calldata is most secure but most expensive; EigenDA and Celestia are cheaper with different trust assumptions. For high-value DeFi app chains, Ethereum calldata is recommended. For gaming or lower-stakes apps, EigenDA or Celestia are typically sufficient.</li>
+      <li><strong>Attach MACH for any app requiring fast bridging UX</strong> — if your app chain users need to bridge assets back to Ethereum without waiting 7 days, MACH is a non-negotiable module. The UX difference between instant and 7-day withdrawal is enormous for end users.</li>
+    </ul>
+  </section>
+
+  <!-- TROUBLESHOOTING -->
+  <section class="card" id="troubleshooting">
+    <h2>Troubleshooting AltLayer: Bridging, AVS Operators, and Deployment</h2>
+
+    <h3>"My bridge withdrawal from an AltLayer rollup is taking 7 days"</h3>
+    <ul style="padding-left:1.2rem">
+      <li>Standard optimistic rollup withdrawals (for OP Stack-based rollups) require a 7-day fraud proof window through the canonical bridge. If MACH fast finality is not enabled on the specific rollup, this wait is unavoidable via the official bridge.</li>
+      <li>Check whether the rollup has MACH enabled — if it does, use MACH-enabled third-party bridges that honour the fast finality attestation for instant withdrawals. If MACH isn't enabled, third-party liquidity bridges (Across, Hop) can still provide faster liquidity-backed exits at a small fee.</li>
+    </ul>
+
+    <h3>"I'm having trouble deploying a rollup via AltLayer's dashboard"</h3>
+    <ul style="padding-left:1.2rem">
+      <li>Verify that you're connected with the correct Ethereum mainnet wallet and have sufficient ETH for the deployment transaction. Some deployment steps require L1 transactions (genesis block anchoring, bridge contract deployment) that have gas costs.</li>
+      <li>For complex configurations (custom VMs, specific DA integrations), AltLayer offers technical support via their Discord and documentation. Some advanced configurations may require CLI access rather than the no-code dashboard.</li>
+    </ul>
+
+    <h3>"My FLASH staking rewards haven't appeared"</h3>
+    <ul style="padding-left:1.2rem">
+      <li>FLASH staking rewards distribution depends on the operator earning fees from rollup deployments — during low-activity periods, fee-based rewards may be minimal. Check the current staking APR in the official AltLayer staking interface.</li>
+      <li>Verify your staking transaction succeeded on Etherscan and that your FLASH is registered in the staking contract, not just held in your wallet.</li>
+    </ul>
+
+    <div class="note">
+      <strong>Official AltLayer docs and Discord are primary support channels:</strong>
+      For deployment-specific issues, AltLayer's documentation and Discord
+      have active technical support from the core team.
+      For on-chain staking verifications, Etherscan with the AltLayer
+      staking contract address is the authoritative record.
+    </div>
+  </section>
+
+  <!-- EEAT -->
+  <section class="eeat" id="eeat" aria-labelledby="eeat-title">
+    <h2 id="eeat-title">AltLayer: Authoritative References &amp; External Sources</h2>
+
+    <h3>AltLayer — Official Sources</h3>
+    <ul style="padding-left:1.2rem">
+      <li><a href="https://altlayer.io/" target="_blank" rel="noopener nofollow">AltLayer — Official Website</a></li>
+      <li><a href="https://docs.altlayer.io/" target="_blank" rel="noopener nofollow">AltLayer — Official Documentation</a></li>
+      <li><a href="https://github.com/alt-research" target="_blank" rel="noopener nofollow">AltLayer — GitHub (Smart Contracts &amp; Research)</a></li>
+      <li><a href="https://blog.altlayer.io/" target="_blank" rel="noopener nofollow">AltLayer — Official Blog</a></li>
+    </ul>
+
+    <h3>EigenLayer &amp; Restaking Context</h3>
+    <ul style="padding-left:1.2rem">
+      <li><a href="https://www.eigenlayer.xyz/" target="_blank" rel="noopener nofollow">EigenLayer — Official Website</a></li>
+      <li><a href="https://docs.eigenlayer.xyz/" target="_blank" rel="noopener nofollow">EigenLayer — AVS Documentation</a></li>
+    </ul>
+
+    <h3>Rollup Frameworks</h3>
+    <ul style="padding-left:1.2rem">
+      <li><a href="https://stack.optimism.io/" target="_blank" rel="noopener nofollow">OP Stack — Official Documentation</a></li>
+      <li><a href="https://docs.arbitrum.io/launch-orbit-chain/orbit-gentle-introduction" target="_blank" rel="noopener nofollow">Arbitrum Orbit — Documentation</a></li>
+    </ul>
+
+    <h3>Data &amp; Analytics</h3>
+    <ul style="padding-left:1.2rem">
+      <li><a href="https://defillama.com/chain/AltLayer" target="_blank" rel="noopener nofollow">DeFiLlama — AltLayer Ecosystem Data</a></li>
+      <li><a href="https://etherscan.io/" target="_blank" rel="noopener nofollow">Etherscan — FLASH Token &amp; Contract Verification</a></li>
+      <li><a href="https://revoke.cash/" target="_blank" rel="noopener nofollow">Revoke.cash — Token Approval Manager</a></li>
+    </ul>
+
+    <div class="note" style="margin-top:1.2rem">
+      <strong>About:</strong> Prepared by Crypto Finance Experts as a practical, SEO-oriented knowledge base for
+      <em>AltLayer</em>: restaked rollups, MACH/SQUAD/VITAL AVS modules, FLASH token, EigenLayer integration, rollup-as-a-service, and ecosystem overview.
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="card" id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title" style="margin-top:0;border-top:none;padding-top:0">AltLayer: Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f1" id="b1">
+        <h3>What is AltLayer and what problem does it solve?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f1" class="faq-content" role="region" aria-labelledby="b1">
+        <p>AltLayer is a decentralised protocol that provides restaked rollup infrastructure — combining rollup-as-a-service (RaaS) deployment with EigenLayer restaking security. It solves two critical problems for new rollups: (1) the cold-start security problem — new rollups can't bootstrap a trusted validator set instantly; AltLayer borrows security from EigenLayer's billions in restaked ETH on day one. (2) The centralisation problem — default rollups rely on a single centralised sequencer; AltLayer's SQUAD AVS decentralises this. The result is a production-grade app chain that's both fast to deploy and genuinely decentralised from launch.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f2" id="b2">
+        <h3>What are MACH, SQUAD, and VITAL?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f2" class="faq-content" role="region" aria-labelledby="b2">
+        <p>These are AltLayer's three Actively Validated Services (AVS) — security modules secured by EigenLayer-restaked ETH. MACH provides fast finality — reducing withdrawal times from 7 days to seconds by having restaked operators attest to rollup state validity. SQUAD provides decentralised sequencing — rotating sequencer duties among a set of operators to prevent censorship and single-point failures. VITAL provides verified state — operators independently verify rollup execution correctness, catching errors faster than the fraud proof window. Each can be attached to any AltLayer-deployed rollup.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f3" id="b3">
+        <h3>How does AltLayer use EigenLayer restaking?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f3" class="faq-content" role="region" aria-labelledby="b3">
+        <p>EigenLayer allows ETH stakers to "re-stake" their staked ETH to secure additional services beyond Ethereum consensus — called Actively Validated Services (AVS). AltLayer is an AVS on EigenLayer. Operators who opt into AltLayer's AVS run MACH, SQUAD, and VITAL nodes and stake restaked ETH as collateral. If they misbehave (e.g. attest to an incorrect state), their restaked ETH is slashed. This cryptoeconomic incentive secures AltLayer's services with the same economic weight as Ethereum's own validator set — without requiring AltLayer to bootstrap its own security from scratch.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f4" id="b4">
+        <h3>What is FLASH token and what is it used for?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f4" class="faq-content" role="region" aria-labelledby="b4">
+        <p>FLASH is AltLayer's native ERC-20 token with a total supply of 10 billion. Its primary utilities are: (1) AVS staking — FLASH can be restaked into AltLayer's AVS modules via EigenLayer's dual-staking model, earning fees from the rollup ecosystem while contributing to security; (2) governance — FLASH holders vote on protocol parameters; (3) operator incentives — staked FLASH boosts rewards for EigenLayer operators running AltLayer's modules, incentivising network participation; (4) fee accrual — a portion of RaaS and AVS fees flows to FLASH stakers.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f5" id="b5">
+        <h3>What rollup frameworks does AltLayer support?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f5" class="faq-content" role="region" aria-labelledby="b5">
+        <p>AltLayer is framework-agnostic — its RaaS and AVS infrastructure supports OP Stack (used by Optimism, Base, Zora), Arbitrum Orbit (for Arbitrum ecosystem L3s), Polygon CDK (zkEVM ecosystem), and zkSync's ZK Stack. This means developers choosing AltLayer aren't locked into a specific rollup technology — they select the framework that best fits their application's needs and attach AltLayer's AVS security on top. New frameworks are added via governance as they mature.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f6" id="b6">
+        <h3>How fast can I deploy an app chain on AltLayer?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f6" class="faq-content" role="region" aria-labelledby="b6">
+        <p>AltLayer's no-code dashboard enables a developer with a configured framework choice to deploy a functional rollup in minutes to hours rather than the weeks or months required to configure and deploy infrastructure manually. The dashboard handles genesis block configuration, sequencer setup, bridge contract deployment, and block explorer integration. Attaching AVS modules (MACH, SQUAD, VITAL) requires additional configuration steps but is handled through the same interface without custom infrastructure work.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f7" id="b7">
+        <h3>What data availability options does AltLayer offer?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f7" class="faq-content" role="region" aria-labelledby="b7">
+        <p>AltLayer integrates with multiple DA layers: Ethereum calldata (most secure, highest cost — recommended for high-value DeFi chains), EigenDA (lower cost, secured by EigenLayer restakers), Celestia (sovereign DA chain, very low cost), Avail, and NearDA. The DA choice represents a fundamental trade-off between security and cost — Ethereum calldata inherits full Ethereum security while alternatives reduce costs by 10–100× with different trust assumptions. The optimal choice depends on your app chain's security requirements and expected transaction volume.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f8" id="b8">
+        <h3>How does AltLayer compare to Conduit and Caldera?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f8" class="faq-content" role="region" aria-labelledby="b8">
+        <p>Conduit and Caldera are managed RaaS providers focused on hosting and operating rollup infrastructure — excellent for teams wanting a reliable managed service. Neither provides decentralised sequencing or fast finality at the infrastructure level. AltLayer differentiates through its MACH, SQUAD, and VITAL AVS modules — addressing sequencer centralisation and withdrawal UX that Conduit and Caldera leave to individual rollup teams to solve. For teams where decentralisation and fast finality are requirements, AltLayer adds meaningful infrastructure value that managed hosting alone doesn't provide.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-button" aria-expanded="false" aria-controls="f9" id="b9">
+        <h3>Was there an AltLayer FLASH token airdrop?</h3><span class="faq-plus">+</span>
+      </button>
+      <div id="f9" class="faq-content" role="region" aria-labelledby="b9">
+        <p>Yes — AltLayer conducted a FLASH token airdrop in early 2024, distributing tokens to early ecosystem participants including EigenLayer restakers, testnet participants, and community contributors. The airdrop represented 5% of FLASH's total 10 billion token supply. The claim window for the initial airdrop has closed. FLASH is now available on major centralised and decentralised exchanges. For any future distribution programmes, monitor the official AltLayer blog and governance forum — any legitimate claims will be announced through official channels only.</p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<footer class="container" role="contentinfo" style="padding:2.5rem 0; border-top:1px solid var(--line); margin-top:2rem">
+  <p style="color:var(--dim); font-size:.93rem">© 2026 AltLayer Guide. Educational content with a security-first operational focus. Not financial advice.</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-button').forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        const c = document.getElementById(b.getAttribute('aria-controls'));
+        c.classList.remove('open'); c.style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        const content = document.getElementById(btn.getAttribute('aria-controls'));
+        content.classList.add('open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+</body>
+</html>
